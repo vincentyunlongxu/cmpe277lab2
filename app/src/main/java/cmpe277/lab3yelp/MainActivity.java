@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            SearchOptionsDetailFragment fragment = new SearchOptionsDetailFragment();
-            transaction.replace(R.id.search_option_detail, fragment);
+            DisplayResultFragment fragment = new DisplayResultFragment();
+            transaction.replace(R.id.search_detail, fragment);
             transaction.commit();
         }
 //        if (savedInstanceState == null) {
