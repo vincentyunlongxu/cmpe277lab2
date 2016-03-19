@@ -24,6 +24,8 @@ public class SearchOptionsDetailFragment extends Fragment {
 
     protected RecyclerView mRecyclerView;
     protected List<SearchInfo> searchInfoList;
+    protected RVAdapter mAdapter;
+    protected RecyclerView.LayoutManager mLayoutManager;
 
     @Override
 
@@ -43,10 +45,12 @@ public class SearchOptionsDetailFragment extends Fragment {
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.rv);
 //        mRecyclerView.setHasFixedSize(true);
 
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(llm);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 //        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
-        initializeAdapter();
+        mAdapter = new RVAdapter(searchInfoList);
+        mRecyclerView.setAdapter(mAdapter);
+//        initializeAdapter();
 
         return rootView;
     }
@@ -58,8 +62,8 @@ public class SearchOptionsDetailFragment extends Fragment {
         searchInfoList.add(new SearchInfo("Coffee & Tea", R.drawable.ic_local_cafe_black_24dp));
     }
 
-    private void initializeAdapter() {
-        RVAdapter adapter = new RVAdapter(searchInfoList);
-        mRecyclerView.setAdapter(adapter);
-    }
+//    private void initializeAdapter() {
+//        RVAdapter adapter = new RVAdapter(searchInfoList);
+//        mRecyclerView.setAdapter(adapter);
+//    }
 }

@@ -61,13 +61,11 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, menuOptions));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        if (findViewById(R.id.search_option_detail) != null) {
-            if (savedInstanceState != null) {
-                return;
-            }
-            SearchOptionsDetailFragment firstFragment = new SearchOptionsDetailFragment();
-            firstFragment.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction().add(R.id.search_option_detail, firstFragment).commit();
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            SearchOptionsDetailFragment fragment = new SearchOptionsDetailFragment();
+            transaction.replace(R.id.search_option_detail, fragment);
+            transaction.commit();
         }
 //        if (savedInstanceState == null) {
 //            FragmentManager fragmentManager = getSupportFragmentManager();
