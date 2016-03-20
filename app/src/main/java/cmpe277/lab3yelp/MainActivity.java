@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             DisplayResultFragment fragment = new DisplayResultFragment();
             transaction.replace(R.id.search_detail, fragment);
+            //transaction.addToBackStack("Search Options");
             transaction.commit();
         }
 //        if (savedInstanceState == null) {

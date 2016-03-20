@@ -9,6 +9,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="app_label">Yelp</string>
     <string name="search_hint">Search on Restaurant</string>
+    <string name="currentlocation">Current Location</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string-array name="menu_option">
