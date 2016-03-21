@@ -61,7 +61,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SearchInfoViewHold
      */
     @Override
     public SearchInfoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycleview_row_element, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_row_element, parent, false);
         SearchInfoViewHolder searchInfoViewHolder = new SearchInfoViewHolder(v);
         return searchInfoViewHolder;
     }

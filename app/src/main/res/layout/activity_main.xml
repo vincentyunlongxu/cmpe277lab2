@@ -29,7 +29,9 @@
             <android.support.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@color/yelpbackground">
+                android:background="@color/yelpbackground"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
                 
                 <EditText
                     android:layout_marginTop="10dp"
@@ -44,7 +46,8 @@
                     android:hint="@string/search_hint"
                     android:background="@color/white"
                     app:layout_widthPercent="80%"
-                    android:drawableLeft="@drawable/ic_search_black_24dp"/>
+                    android:drawableLeft="@drawable/ic_search_black_24dp"
+                    android:textColorHint="@android:color/holo_blue_dark"/>
 
                 <LinearLayout
                     android:layout_marginTop="10dp"
@@ -90,12 +93,13 @@
                     android:hint="@string/currentlocation"
                     android:background="@color/white"
                     app:layout_widthPercent="80%"
-                    android:drawableLeft="@drawable/ic_place_black_24dp"/>
+                    android:drawableLeft="@drawable/ic_place_black_24dp"
+                    android:textColorHint="@android:color/holo_blue_dark"/>
 
             </android.support.percent.PercentRelativeLayout>
 
             <View
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"

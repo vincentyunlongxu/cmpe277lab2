@@ -1,7 +1,6 @@
 package cmpe277.lab3yelp;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,12 @@ import java.util.List;
 /**
  * Created by yunlongxu on 3/19/16.
  */
-public class DisplayResultAdapter extends BaseAdapter {
+public class SearchOptionsAdapter extends BaseAdapter {
 
     private static List<SearchInfo> searchInfos;
     private LayoutInflater mInflater;
 
-    public DisplayResultAdapter(Context displayResultFragment, List<SearchInfo> searchInfos) {
+    public SearchOptionsAdapter(Context displayResultFragment, List<SearchInfo> searchInfos) {
         this.searchInfos = searchInfos;
         mInflater = LayoutInflater.from(displayResultFragment);
     }
@@ -43,7 +42,7 @@ public class DisplayResultAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.recycleview_row_element, null);
+            convertView = mInflater.inflate(R.layout.listview_row_element, null);
             holder = new ViewHolder();
             holder.searchInfo = (TextView)convertView.findViewById(R.id.search_info);
             holder.icon = (ImageView)convertView.findViewById(R.id.category_icon);

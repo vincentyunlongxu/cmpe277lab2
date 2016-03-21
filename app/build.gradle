@@ -11,6 +11,13 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE' // will not include NOTICE file
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt' // will not include LICENSE file
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -27,8 +34,10 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
     compile 'com.android.support:percent:23.1.1'
+    compile 'com.yelp.clientlib:yelp-android:1.0.0'
 }
 
 repositories {
     jcenter()
+    mavenCentral()
 }
