@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +48,13 @@ public class ResultDetailFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedBusiness = (Business)lv_result.getItemAtPosition(position);
-                mCallBack = new MainActivity();
                 mCallBack.onLayoutSelected();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                BusinessDetailFragment fragment = new BusinessDetailFragment();
+                fragment.setBusiness(selectedBusiness);
+                transaction.replace(R.id.detail_layout, fragment);
+                transaction.addToBackStack("Business Detail");
+                transaction.commit();
             }
         });
         return rootView;

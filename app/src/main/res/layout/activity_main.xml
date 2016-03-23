@@ -134,7 +134,7 @@
                     android:id="@+id/detail_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/yelpbackground"
+                    android:background="@color/lightGrey"
                     android:visibility="invisible">
 
                 </FrameLayout>

@@ -10,6 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
 
     packagingOptions {
@@ -23,6 +24,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+        }
+    }
+    dexOptions {
+        preDexLibraries true
+        javaMaxHeapSize "2g" // Use gig increments depending on needs
+        incremental true
     }
 }
 
@@ -35,6 +44,7 @@ dependencies {
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
     compile 'com.android.support:percent:23.1.1'
     compile 'com.yelp.clientlib:yelp-android:1.0.0'
+    compile 'com.google.android.gms:play-services:8.4.0'
 }
 
 repositories {
