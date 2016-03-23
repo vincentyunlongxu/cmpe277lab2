@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.yelp.clientlib.entities.Business;
@@ -23,6 +24,11 @@ public class ResultDetailFragment extends Fragment {
     private String searchLocation;
     private double latitude;
     private double longitude;
+    private OnLayoutSelectListener mCallBack;
+
+    public interface OnLayoutSelectListener {
+        public void onLayoutSelected();
+    }
 
     public ResultDetailFragment(){}
 
@@ -35,6 +41,7 @@ public class ResultDetailFragment extends Fragment {
         ArrayList<Business> businessList = getYelpData.getBusinesses();
         ListView lv_result = (ListView)rootView.findViewById(R.id.lv_result);
         lv_result.setAdapter(new SearchResultAdapter(getActivity(), businessList));
+
         return rootView;
     }
 
