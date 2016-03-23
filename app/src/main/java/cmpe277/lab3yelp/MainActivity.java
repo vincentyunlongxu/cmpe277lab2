@@ -14,15 +14,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ResultDetailFragment.OnLayoutSelectListener {
 
     private ImageButton search_button;
     private EditText searchView;
-    private EditText locationView;
+    private TextView locationView;
     private String[] menuOptions;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private String searchLocation;
     private double latitude;
     private double longitude;
+    private FrameLayout detail_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Enable the edit text as search bar, link navigation drawer with tool bar
         searchView = (EditText) findViewById(R.id.searchview);
-        locationView = (EditText) findViewById(R.id.locationview);
+        locationView = (TextView) findViewById(R.id.locationview);
         menuOptions = getResources().getStringArray(R.array.menu_option);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
@@ -108,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     // set location data
     public void setLocationData() {
         gps = new GPSTracker(MainActivity.this);
+        System.out.print("setlocationdata");
         if (gps.canGetLocation()) {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
@@ -135,5 +139,11 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onLayoutSelected() {
+        detail_layout = (FrameLayout)findViewById(R.id.detail_layout);
+        detail_layout.setVisibility(View.VISIBLE);
     }
 }

@@ -1,5 +1,6 @@
 package cmpe277.lab3yelp;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ public class ResultDetailFragment extends Fragment {
     private double latitude;
     private double longitude;
     private OnLayoutSelectListener mCallBack;
+    private Business selectedBusiness = null;
 
     public interface OnLayoutSelectListener {
         public void onLayoutSelected();
@@ -39,10 +41,28 @@ public class ResultDetailFragment extends Fragment {
         getYelpData = new GetYelpData(searchContent, searchLocation, latitude, longitude);
         getYelpData.getData();
         ArrayList<Business> businessList = getYelpData.getBusinesses();
-        ListView lv_result = (ListView)rootView.findViewById(R.id.lv_result);
+        final ListView lv_result = (ListView)rootView.findViewById(R.id.lv_result);
         lv_result.setAdapter(new SearchResultAdapter(getActivity(), businessList));
-
+        lv_result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedBusiness = (Business)lv_result.getItemAtPosition(position);
+                mCallBack = new MainActivity();
+                mCallBack.onLayoutSelected();
+            }
+        });
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            mCallBack = (OnLayoutSelectListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnLayoutSelectListener");
+        }
     }
 
     public void setData(String searchContent, String searchLocation, double latitude, double longitude) {

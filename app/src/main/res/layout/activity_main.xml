@@ -87,7 +87,7 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
+                        <TextView
                             android:orientation="horizontal"
                             android:layout_below="@+id/searchview"
                             android:layout_marginTop="1dp"
@@ -106,14 +106,7 @@
                             android:drawableLeft="@drawable/ic_place_black_24dp"
                             android:textColorHint="@android:color/holo_blue_dark" >
 
-                            <fragment
-                                android:id="@+id/place_autocomplete_fragment"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-                                />
-
-                        </LinearLayout>
+                        </TextView>
 
                     </android.support.percent.PercentRelativeLayout>
 
@@ -138,8 +131,10 @@
                 </LinearLayout>
 
                 <FrameLayout
+                    android:id="@+id/detail_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/yelpbackground"
                     android:visibility="invisible">
 
                 </FrameLayout>
