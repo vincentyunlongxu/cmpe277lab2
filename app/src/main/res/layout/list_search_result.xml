@@ -37,11 +37,10 @@
         android:focusable = "false"
         android:focusableInTouchMode = "false">
 
-        <TextView
+        <WebView
             android:id="@+id/business_rating"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="12sp"
             android:focusable = "false"
             android:focusableInTouchMode = "false"/>
 

@@ -106,17 +106,41 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
-            <TextView
-                android:text="Photo or Video"
-                android:layout_weight="1"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TextView
-                android:text="Check In"
-                android:layout_weight="1"/>
+                <TextView
+                    android:text="Photo or Video"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
-            <TextView
-                android:text="Bookmark"
-                android:layout_weight="1"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:text="Check In"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:text="Bookmark"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
 
         </TableRow>
 
