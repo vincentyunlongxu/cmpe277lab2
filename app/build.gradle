@@ -39,7 +39,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
     compile 'com.android.support:percent:23.1.1'
     compile 'com.yelp.clientlib:yelp-android:1.0.0'
     compile 'com.google.android.gms:play-services:8.4.0'
