@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,6 +37,8 @@ public class BusinessDetailFragment extends Fragment {
     private WebView rating;
     private TextView address;
     private TextView phone;
+    private ImageButton icon_bookmark;
+    private TextView book_mark;
 
     private SupportMapFragment fragment;
 
@@ -62,12 +66,31 @@ public class BusinessDetailFragment extends Fragment {
         address.setText(business.location().address().get(0));
 
         phone = (TextView)rootView.findViewById(R.id.telephone);
-        phone.setText(business.phone());
+        phone.setText(business.displayPhone());
+
+        icon_bookmark = (ImageButton) rootView.findViewById(R.id.bookmark_icon);
+        icon_bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                connectToDatabase();
+            }
+        });
+        book_mark = (TextView)rootView.findViewById(R.id.bookmark);
+        book_mark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                connectToDatabase();
+            }
+        });
 
         setUpGoogleMap();
 
 
         return rootView;
+    }
+
+    private void connectToDatabase() {
+        icon_bookmark.setImageResource(R.drawable.ic_bookmark_black_24dp);
     }
 
     private void setUpGoogleMap() {

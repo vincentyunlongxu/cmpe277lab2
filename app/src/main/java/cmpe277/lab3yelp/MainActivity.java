@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
                         @Override
                         public void onClick(View v) {
                             getSupportFragmentManager().popBackStack();
+                            detail_layout.setVisibility(View.INVISIBLE);
                         }
                     });
                 } else {

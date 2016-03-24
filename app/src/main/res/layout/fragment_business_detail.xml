@@ -40,7 +40,7 @@
                 android:id="@+id/bus_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
@@ -174,11 +174,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/bookmark_icon"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:layout_heightPercent="50%"
+                    android:background="@android:color/transparent"
                     android:src="@drawable/ic_bookmark_border_black_24dp"/>
 
                 <RelativeLayout
