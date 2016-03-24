@@ -91,7 +91,7 @@
 
     </android.support.percent.PercentFrameLayout>
 
-    <TableLayout
+    <android.support.percent.PercentRelativeLayout
         android:id="@+id/table_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -106,45 +106,102 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
-            <RelativeLayout
+            <android.support.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <TextView
-                    android:text="Photo or Video"
+                <ImageView
+                    android:id="@+id/photo_icon"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="0dp"
+                    app:layout_heightPercent="50%"
+                    android:src="@drawable/ic_camera_alt_black_24dp"/>
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_below="@id/photo_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_heightPercent="50%">
 
-            <RelativeLayout
+                    <TextView
+                        android:id="@+id/photo"
+                        android:text="Photo or Video"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true" />
+
+                </RelativeLayout>
+
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <TextView
-                    android:text="Check In"
+                <ImageView
+                    android:id="@+id/check_icon"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="0dp"
+                    app:layout_heightPercent="50%"
+                    android:src="@drawable/ic_check_circle_black_24dp"/>
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_below="@id/check_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_heightPercent="50%">
 
-            <RelativeLayout
+                    <TextView
+
+                        android:id="@+id/check_in"
+                        android:text="Check In"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <TextView
-                    android:text="Bookmark"
+                <ImageView
+                    android:id="@+id/bookmark_icon"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="0dp"
+                    app:layout_heightPercent="50%"
+                    android:src="@drawable/ic_bookmark_border_black_24dp"/>
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_below="@id/bookmark_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_heightPercent="50%">
+
+                    <TextView
+                        android:id="@+id/bookmark"
+                        android:text="Bookmark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+            </android.support.percent.PercentRelativeLayout>
 
         </TableRow>
 
-    </TableLayout>
+    </android.support.percent.PercentRelativeLayout>
 
     <View
         android:layout_below="@id/table_layout"
@@ -174,20 +231,28 @@
 
                 <fragment
                     android:name="com.google.android.gms.maps.MapFragment"
-                    android:id="@+id/map"
+                    android:id="@+id/map_google_service"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
             </FrameLayout>
 
-            <TextView
+            <RelativeLayout
                 android:layout_below="@id/google_map"
-                android:id="@+id/google_address"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@color/white"
                 app:layout_heightPercent="20%"
-                android:text="address"/>
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/google_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="address"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
 
         </android.support.percent.PercentRelativeLayout>
 
@@ -209,29 +274,35 @@
         android:orientation="vertical"
         app:layout_heightPercent="25%">
 
-        <android.support.percent.PercentRelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white">
 
             <TextView
+                android:paddingTop="10dp"
                 android:id="@+id/direction"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:text="direction"
-                app:layout_heightPercent="50%"/>
+                android:layout_weight="1"
+                android:layout_gravity="center"/>
 
             <TextView
+                android:paddingTop="10dp"
                 android:layout_below="@id/direction"
                 android:id="@+id/telephone"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:text="telephone"
-                app:layout_heightPercent="50%"/>
+                android:layout_weight="1"
+                android:layout_gravity="center"/>
 
 
-        </android.support.percent.PercentRelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

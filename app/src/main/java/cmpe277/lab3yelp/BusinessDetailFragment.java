@@ -21,6 +21,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yelp.clientlib.entities.Business;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * Created by yunlongxu on 3/22/16.
  */
@@ -30,6 +33,8 @@ public class BusinessDetailFragment extends Fragment {
     private TextView businessName;
     private TextView distance;
     private WebView rating;
+    private TextView address;
+    private TextView phone;
 
     private SupportMapFragment fragment;
 
@@ -48,7 +53,16 @@ public class BusinessDetailFragment extends Fragment {
         rating.loadUrl(business.ratingImgUrl());
 
         distance = (TextView)rootView.findViewById(R.id.distance);
-        distance.setText(business.distance() + " Miles");
+        double numDistantce =  business.distance() / 160;
+        NumberFormat numberFormat = new DecimalFormat("#0.00");
+        numberFormat.format(numDistantce);
+        distance.setText(numDistantce + " Miles");
+
+        address = (TextView)rootView.findViewById(R.id.google_address);
+        address.setText(business.location().address().get(0));
+
+        phone = (TextView)rootView.findViewById(R.id.telephone);
+        phone.setText(business.phone());
 
         setUpGoogleMap();
 
@@ -96,7 +110,7 @@ public class BusinessDetailFragment extends Fragment {
 
                 }
             });
-            fm.beginTransaction().replace(R.id.map, fragment).addToBackStack("detail_map").commit();
+            fm.beginTransaction().replace(R.id.map_google_service, fragment).addToBackStack("detail_map").commit();
         }
     }
 

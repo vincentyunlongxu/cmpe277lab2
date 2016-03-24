@@ -55,7 +55,7 @@ public class SearchResultAdapter extends ArrayAdapter<Business> {
         WebView viewRating = (WebView) rootView.findViewById(R.id.business_rating);
         viewRating.setBackgroundColor(Color.TRANSPARENT);
         // load the business rating to widget to display
-        viewRating.loadUrl(businesses.get(position).ratingImgUrlSmall());
+        viewRating.loadUrl(businesses.get(position).ratingImgUrl());
 
         // set up business address
         Location address = businesses.get(position).location();
