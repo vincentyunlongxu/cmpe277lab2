@@ -39,6 +39,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_RATINGURL = "rating_imgUrl";
     private static final String KEY_RATINGURLLARGE = "rating_imgUrlLarge";
     private static final String KEY_RATINGURLSMALL = "rating_imgUrlSmall";
+    private static final String KEY_ADDRESS = "address";
+
+    private static final String DATABASE_ALTER_TABLE_NAME = "ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + KEY_ADDRESS + " TEXT;";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -46,6 +49,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         String CREATE_FAVORITES_TABLE = "CREATE TABLE "
                 + TABLE_NAME + "("
                 + KEY_ID + " TEXT PRIMARY KEY,"
@@ -58,14 +62,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_LONGITUDE + " TEXT,"
                 + KEY_RATINGURL + " TEXT,"
                 + KEY_RATINGURLLARGE + " TEXT,"
-                + KEY_RATINGURLSMALL + " TEXT" + ")";
+                + KEY_RATINGURLSMALL + " TEXT,"
+                + KEY_ADDRESS + " TEXT" + ")";
         db.execSQL(CREATE_FAVORITES_TABLE);
         Log.d("Database", "table " + TABLE_NAME + " created");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
+        Log.d("delete table", "deleted");
+//        if (oldVersion < 2) {
+//            db.execSQL(DATABASE_ALTER_TABLE_NAME);
+//        }
     }
 
     public void addFavorites(FavoriteBusiness favoriteBusiness) {
@@ -83,6 +93,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_RATINGURL, favoriteBusiness.get_ratingImgUrl());
         values.put(KEY_RATINGURLLARGE, favoriteBusiness.get_ratingImgUrlLarge());
         values.put(KEY_RATINGURLSMALL, favoriteBusiness.get_ratingImgUrlSmall());
+        values.put(KEY_ADDRESS, favoriteBusiness.get_address());
 
         db.insert(TABLE_NAME, null, values);
         Log.d("New Favorite Business", values.toString());
@@ -90,10 +101,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public List<FavoriteBusiness> getAllFavoriteBusiness() {
+    public ArrayList<FavoriteBusiness> getAllFavoriteBusiness() {
 
         // prepare list for all favorite businesses
-        List<FavoriteBusiness> favoriteBusinesses = new ArrayList<>();
+        ArrayList<FavoriteBusiness> favoriteBusinesses = new ArrayList<>();
         // prepare the query statement
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
 
@@ -116,6 +127,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 favoriteBusiness.set_ratingImgUrl(cursor.getString(8));
                 favoriteBusiness.set_ratingImgUrlLarge(cursor.getString(9));
                 favoriteBusiness.set_ratingImgUrlSmall(cursor.getString(10));
+                favoriteBusiness.set_address(cursor.getString(11));
                 favoriteBusinesses.add(favoriteBusiness);
             } while (cursor.moveToNext());
         }

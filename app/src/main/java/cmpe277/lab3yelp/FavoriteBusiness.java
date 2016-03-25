@@ -15,11 +15,23 @@ public class FavoriteBusiness {
     private String _ratingImgUrl;
     private String _ratingImgUrlLarge;
     private String _ratingImgUrlSmall;
+    private String _address;
 
     public FavoriteBusiness() {
     }
 
-    public FavoriteBusiness(String _id, String _name, String _display_phone, String _distance, String _imageUrl, String _phone, String _latitude, String _longitude, String _ratingImgUrl, String _ratingImgUrlLarge, String _ratingImgUrlSmall) {
+    public FavoriteBusiness(String _id,
+                            String _name,
+                            String _display_phone,
+                            String _distance,
+                            String _imageUrl,
+                            String _phone,
+                            String _latitude,
+                            String _longitude,
+                            String _ratingImgUrl,
+                            String _ratingImgUrlLarge,
+                            String _ratingImgUrlSmall,
+                            String _address) {
         this._id = _id;
         this._name = _name;
         this._display_phone = _display_phone;
@@ -31,6 +43,8 @@ public class FavoriteBusiness {
         this._ratingImgUrl = _ratingImgUrl;
         this._ratingImgUrlLarge = _ratingImgUrlLarge;
         this._ratingImgUrlSmall = _ratingImgUrlSmall;
+        this._address = _address;
+
     }
 
     public String get_id() {
@@ -119,5 +133,13 @@ public class FavoriteBusiness {
 
     public void set_ratingImgUrlSmall(String _ratingImgUrlSmall) {
         this._ratingImgUrlSmall = _ratingImgUrlSmall;
+    }
+
+    public String get_address() {
+        return _address;
+    }
+
+    public void set_address(String _address) {
+        this._address = _address;
     }
 }

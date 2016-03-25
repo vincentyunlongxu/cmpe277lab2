@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,9 +24,12 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yelp.clientlib.entities.Business;
+import com.yelp.clientlib.entities.Location;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yunlongxu on 3/22/16.
@@ -35,7 +40,7 @@ public class BusinessDetailFragment extends Fragment {
     private TextView businessName;
     private TextView distance;
     private WebView rating;
-    private TextView address;
+    private TextView addressView;
     private TextView phone;
     private ImageButton icon_bookmark;
     private TextView book_mark;
@@ -61,8 +66,21 @@ public class BusinessDetailFragment extends Fragment {
         String calDistance = business.distance().toString();
         distance.setText(calDistance + " Meters");
 
-        address = (TextView)rootView.findViewById(R.id.google_address);
-        address.setText(business.location().address().get(0));
+        String address = "";
+        Location location = business.location();
+        ArrayList<String> addressList = location.displayAddress();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < addressList.size(); i++){
+            if(i == addressList.size()-1){
+                sb.append(" ");
+                sb.append(addressList.get(i));
+                break;
+            }
+            sb.append(addressList.get(i));
+            sb.append(" ");
+        }
+        addressView = (TextView)rootView.findViewById(R.id.google_address);
+        addressView.setText(sb.toString());
 
         phone = (TextView)rootView.findViewById(R.id.telephone);
         phone.setText(business.displayPhone());
@@ -89,14 +107,49 @@ public class BusinessDetailFragment extends Fragment {
     }
 
     private void connectToDatabase() {
+        DatabaseHandler db = new DatabaseHandler(getActivity());
+        Location location = business.location();
+        ArrayList<String> addressList = location.displayAddress();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < addressList.size(); i++){
+            if(i == addressList.size()-1){
+                sb.append(" ");
+                sb.append(addressList.get(i));
+                break;
+            }
+            sb.append(addressList.get(i));
+            sb.append(" ");
+        }
+//        System.out.println(sb.toString());
+        Toast toast = Toast.makeText(getActivity(), sb.toString(), Toast.LENGTH_LONG);
+        toast.show();
+        FavoriteBusiness favoriteBusiness = new FavoriteBusiness(
+                business.id(),
+                business.name(),
+                business.displayPhone(),
+                business.distance().toString(),
+                business.imageUrl(),
+                business.phone(),
+                business.location().coordinate().latitude().toString(),
+                business.location().coordinate().longitude().toString(),
+                business.ratingImgUrl(),
+                business.ratingImgUrlLarge(),
+                business.ratingImgUrlSmall(),
+                sb.toString()
+        );
         if (favorite == false) {
             favorite = true;
             icon_bookmark.setImageResource(R.drawable.ic_bookmark_black_24dp);
+            Log.d("Insert: ", "Inserting ..");
+            db.addFavorites(favoriteBusiness);
+
         } else{
             icon_bookmark.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
             favorite = false;
+            List<FavoriteBusiness> favoriteBusinessList = db.getAllFavoriteBusiness();
+            System.out.println(favoriteBusinessList.get(0));
         }
-
+        db.close();
     }
 
     private void setUpGoogleMap() {

@@ -23,5 +23,6 @@
         <item>Gas and Service Stations</item>
         <item>Drugstores</item>
         <item>Reservation</item>
+        <item>Favorite</item>
     </string-array>
 </resources>
