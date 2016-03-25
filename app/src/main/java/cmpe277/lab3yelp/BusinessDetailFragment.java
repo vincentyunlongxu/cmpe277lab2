@@ -120,9 +120,6 @@ public class BusinessDetailFragment extends Fragment {
             sb.append(addressList.get(i));
             sb.append(" ");
         }
-//        System.out.println(sb.toString());
-        Toast toast = Toast.makeText(getActivity(), sb.toString(), Toast.LENGTH_LONG);
-        toast.show();
         FavoriteBusiness favoriteBusiness = new FavoriteBusiness(
                 business.id(),
                 business.name(),
@@ -146,8 +143,7 @@ public class BusinessDetailFragment extends Fragment {
         } else{
             icon_bookmark.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
             favorite = false;
-            List<FavoriteBusiness> favoriteBusinessList = db.getAllFavoriteBusiness();
-            System.out.println(favoriteBusinessList.get(0));
+            db.deleteFavorites(favoriteBusiness);
         }
         db.close();
     }
