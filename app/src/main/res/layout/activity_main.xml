@@ -87,7 +87,7 @@
 
                         </LinearLayout>
 
-                        <TextView
+                        <EditText
                             android:orientation="horizontal"
                             android:layout_below="@+id/searchview"
                             android:layout_marginTop="1dp"
@@ -106,7 +106,7 @@
                             android:drawableLeft="@drawable/ic_place_black_24dp"
                             android:textColorHint="@android:color/holo_blue_dark" >
 
-                        </TextView>
+                        </EditText>
 
                     </android.support.percent.PercentRelativeLayout>
 

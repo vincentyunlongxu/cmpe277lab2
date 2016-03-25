@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
 
     private ImageButton search_button;
     private EditText searchView;
-    private TextView locationView;
+    private EditText locationView;
     private String[] menuOptions;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
 
         // Enable the edit text as search bar, link navigation drawer with tool bar
         searchView = (EditText) findViewById(R.id.searchview);
-        locationView = (TextView) findViewById(R.id.locationview);
+        locationView = (EditText) findViewById(R.id.locationview);
         menuOptions = getResources().getStringArray(R.array.menu_option);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
