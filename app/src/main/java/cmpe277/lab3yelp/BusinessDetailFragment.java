@@ -39,6 +39,7 @@ public class BusinessDetailFragment extends Fragment {
     private TextView phone;
     private ImageButton icon_bookmark;
     private TextView book_mark;
+    private boolean favorite = false;
 
     private SupportMapFragment fragment;
 
@@ -57,10 +58,8 @@ public class BusinessDetailFragment extends Fragment {
         rating.loadUrl(business.ratingImgUrl());
 
         distance = (TextView)rootView.findViewById(R.id.distance);
-        double numDistantce =  business.distance() / 160;
-        NumberFormat numberFormat = new DecimalFormat("#0.00");
-        numberFormat.format(numDistantce);
-        distance.setText(numDistantce + " Miles");
+        String calDistance = business.distance().toString();
+        distance.setText(calDistance + " Meters");
 
         address = (TextView)rootView.findViewById(R.id.google_address);
         address.setText(business.location().address().get(0));
@@ -90,7 +89,14 @@ public class BusinessDetailFragment extends Fragment {
     }
 
     private void connectToDatabase() {
-        icon_bookmark.setImageResource(R.drawable.ic_bookmark_black_24dp);
+        if (favorite == false) {
+            favorite = true;
+            icon_bookmark.setImageResource(R.drawable.ic_bookmark_black_24dp);
+        } else{
+            icon_bookmark.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
+            favorite = false;
+        }
+
     }
 
     private void setUpGoogleMap() {
