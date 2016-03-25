@@ -3,6 +3,7 @@ package cmpe277.lab3yelp;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +18,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -29,11 +32,11 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.maps.android.SphericalUtil;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ResultDetailFragment.OnLayoutSelectListener {
 
     private ImageButton search_button;
     private EditText searchView;
-    private EditText locationView;
+    private TextView locationView;
     private String[] menuOptions;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -48,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private String address_google;
     private String att_google;
     private LatLng location_picker;
-
-
+    private FrameLayout detail_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Enable the edit text as search bar, link navigation drawer with tool bar
         searchView = (EditText) findViewById(R.id.searchview);
-        locationView = (EditText) findViewById(R.id.locationview);
+        locationView = (TextView) findViewById(R.id.locationview);
         menuOptions = getResources().getStringArray(R.array.menu_option);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, myToolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close
         );
@@ -114,12 +116,31 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                searchContent = (String)(mDrawerList.getItemAtPosition(position));
+                searchContent = (String) (mDrawerList.getItemAtPosition(position));
                 mDrawerLayout.closeDrawer(mDrawerList);
                 setLocationData();
                 startResultFragment();
             }
         });
+        final View.OnClickListener originalToolbarListener = drawerToggle.getToolbarNavigationClickListener();
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 2) {
+                   drawerToggle.setDrawerIndicatorEnabled(false);
+                    drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getSupportFragmentManager().popBackStack();
+                        }
+                    });
+                } else {
+                    drawerToggle.setDrawerIndicatorEnabled(true);
+                    drawerToggle.setToolbarNavigationClickListener(originalToolbarListener);
+                }
+            }
+        });
+        mDrawerLayout.setDrawerListener(drawerToggle);
 
         // active to get current location latitude & longitude
         search_button = (ImageButton)findViewById(R.id.button_search);
@@ -190,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
     // set location data
     public void setLocationData() {
         gps = new GPSTracker(MainActivity.this);
+        System.out.print("setlocationdata");
         if (gps.canGetLocation()) {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
@@ -217,5 +239,11 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onLayoutSelected() {
+        detail_layout = (FrameLayout)findViewById(R.id.detail_layout);
+        detail_layout.setVisibility(View.VISIBLE);
     }
 }

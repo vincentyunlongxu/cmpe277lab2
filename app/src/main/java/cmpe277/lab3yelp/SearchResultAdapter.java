@@ -1,6 +1,7 @@
 package cmpe277.lab3yelp;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,9 +52,10 @@ public class SearchResultAdapter extends ArrayAdapter<Business> {
         // set up business rating
         Double rating = businesses.get(position).rating();
         // configure the widget
-        TextView textViewRating = (TextView) rootView.findViewById(R.id.business_rating);
+        WebView viewRating = (WebView) rootView.findViewById(R.id.business_rating);
+        viewRating.setBackgroundColor(Color.TRANSPARENT);
         // load the business rating to widget to display
-        textViewRating.setText(rating.toString());
+        viewRating.loadUrl(businesses.get(position).ratingImgUrl());
 
         // set up business address
         Location address = businesses.get(position).location();

@@ -11,7 +11,9 @@
         android:id="@+id/business_icon"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:focusable = "false"
+        android:focusableInTouchMode = "false"/>
 
     <TextView
         android:layout_marginLeft="5dp"
@@ -20,7 +22,9 @@
         android:layout_height="20dp"
         android:layout_toRightOf="@+id/business_icon"
         android:text="testing"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:focusable = "false"
+        android:focusableInTouchMode = "false"/>
 
     <LinearLayout
         android:id="@+id/rating_layout"
@@ -29,13 +33,16 @@
         android:layout_height="20dp"
         android:layout_toRightOf="@+id/business_icon"
         android:layout_below="@+id/business_name"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:focusable = "false"
+        android:focusableInTouchMode = "false">
 
-        <TextView
+        <WebView
             android:id="@+id/business_rating"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="12sp"/>
+            android:focusable = "false"
+            android:focusableInTouchMode = "false"/>
 
     </LinearLayout>
 
@@ -47,6 +54,8 @@
         android:layout_below="@+id/rating_layout"
         android:layout_toRightOf="@+id/business_icon"
         android:textSize="12sp"
+        android:focusable = "false"
+        android:focusableInTouchMode = "false"
         />
 
 
