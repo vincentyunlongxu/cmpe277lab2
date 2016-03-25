@@ -28,6 +28,8 @@ public class ResultDetailFragment extends Fragment {
     private double longitude;
     private OnLayoutSelectListener mCallBack;
     private Business selectedBusiness = null;
+    private boolean isFavorite = false;
+    private ArrayList<FavoriteBusiness> favoriteBusinesses;
 
     public interface OnLayoutSelectListener {
         public void onLayoutSelected();
@@ -39,26 +41,32 @@ public class ResultDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search_result, container, false);
-        getYelpData = new GetYelpData(searchContent, searchLocation, latitude, longitude);
-        getYelpData.getData();
-        ArrayList<Business> businessList = getYelpData.getBusinesses();
-        final ListView lv_result = (ListView)rootView.findViewById(R.id.lv_result);
-        //ivan
-        if(businessList!=null)
-        lv_result.setAdapter(new SearchResultAdapter(getActivity(), businessList));
-        lv_result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedBusiness = (Business)lv_result.getItemAtPosition(position);
-                mCallBack.onLayoutSelected();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                BusinessDetailFragment fragment = new BusinessDetailFragment();
-                fragment.setBusiness(selectedBusiness);
-                transaction.replace(R.id.detail_layout, fragment);
-                transaction.addToBackStack("Business Detail");
-                transaction.commit();
-            }
-        });
+        if (!isFavorite) {
+            getYelpData = new GetYelpData(searchContent, searchLocation, latitude, longitude);
+            getYelpData.getData();
+            ArrayList<Business> businessList = getYelpData.getBusinesses();
+            final ListView lv_result = (ListView)rootView.findViewById(R.id.lv_result);
+            lv_result.setAdapter(new SearchResultAdapter(getActivity(), businessList));
+            lv_result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    selectedBusiness = (Business)lv_result.getItemAtPosition(position);
+                    mCallBack.onLayoutSelected();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    BusinessDetailFragment fragment = new BusinessDetailFragment();
+                    fragment.setBusiness(selectedBusiness);
+                    transaction.replace(R.id.detail_layout, fragment);
+                    transaction.addToBackStack("Business Detail");
+                    transaction.commit();
+                }
+            });
+        } else {
+            DBHandler db = new DBHandler(getActivity());
+            favoriteBusinesses = db.getAllFavoriteBusiness();
+            final ListView lv_result = (ListView)rootView.findViewById(R.id.lv_result);
+            lv_result.setAdapter(new FavoriteResultAdapter(getActivity(), favoriteBusinesses));
+            db.close();
+        }
         return rootView;
     }
 
@@ -73,7 +81,7 @@ public class ResultDetailFragment extends Fragment {
         }
     }
 
-    public void setData(String searchContent, String searchLocation, double latitude, double longitude) {
+    public void setData(String searchContent, String searchLocation, double latitude, double longitude, boolean isFavorite) {
         this.searchContent = searchContent;
         this.searchLocation = searchLocation;
         this.latitude = latitude;

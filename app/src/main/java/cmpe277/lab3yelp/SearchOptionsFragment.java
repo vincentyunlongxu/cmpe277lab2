@@ -21,6 +21,7 @@ public class SearchOptionsFragment extends Fragment {
     private SearchInfo selectedOption;
     private double latitude;
     private double longitude;
+    private boolean isFavorite;
 
     public SearchOptionsFragment() {}
 
@@ -37,7 +38,7 @@ public class SearchOptionsFragment extends Fragment {
                 selectedOption = (SearchInfo) lv.getItemAtPosition(position);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 ResultDetailFragment fragment = new ResultDetailFragment();
-                fragment.setData(selectedOption.information, null, latitude, longitude);
+                fragment.setData(selectedOption.information, null, latitude, longitude, isFavorite);
                 transaction.replace(R.id.search_detail, fragment);
                 transaction.addToBackStack("Result Options");
                 transaction.commit();
@@ -46,9 +47,10 @@ public class SearchOptionsFragment extends Fragment {
         return rootView;
     }
 
-    public void setCoordinate(double latitude, double longitude) {
+    public void setCoordinate(double latitude, double longitude, boolean isFavorite) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.isFavorite = isFavorite;
     }
 
     public List<SearchInfo> getListSearchInfo() {
@@ -62,6 +64,7 @@ public class SearchOptionsFragment extends Fragment {
         SearchInfo gasStation = new SearchInfo("Gas & Service Stations", R.drawable.ic_local_gas_station_black_24dp);
         SearchInfo drugStore = new SearchInfo("Drugstores", R.drawable.ic_local_hospital_black_24dp);
         SearchInfo reservation = new SearchInfo("Reservation", R.drawable.ic_event_black_24dp);
+        SearchInfo favorite = new SearchInfo("Favorite", R.drawable.ic_star_black_24dp);
         searchInfos.add(restaurant_info);
         searchInfos.add(bar_info);
         searchInfos.add(nightLife);
@@ -71,6 +74,7 @@ public class SearchOptionsFragment extends Fragment {
         searchInfos.add(gasStation);
         searchInfos.add(drugStore);
         searchInfos.add(reservation);
+        searchInfos.add(favorite);
 
         return searchInfos;
     }

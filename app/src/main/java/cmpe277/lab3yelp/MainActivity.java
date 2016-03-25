@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
     private String att_google;
     private LatLng location_picker;
     private FrameLayout detail_layout;
+    private boolean isFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +120,13 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
                 searchContent = (String) (mDrawerList.getItemAtPosition(position));
                 mDrawerLayout.closeDrawer(mDrawerList);
                 setLocationData();
-                startResultFragment();
+                if (searchContent.equals("Favorite")) {
+                    startResultFragment(true);
+                    isFavorite = false;
+                } else {
+                    startResultFragment(false);
+                }
+
             }
         });
         final View.OnClickListener originalToolbarListener = drawerToggle.getToolbarNavigationClickListener();
@@ -150,7 +157,12 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
                 searchContent = searchView.getText().toString();
                 searchLocation = locationView.getText().toString();
                 setLocationData();
-                startResultFragment();
+                if (searchContent.equals("Favorite")) {
+                    startResultFragment(true);
+                    isFavorite = false;
+                } else {
+                    startResultFragment(false);
+                }
             }
         });
 
@@ -159,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
             setLocationData();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             SearchOptionsFragment fragment = new SearchOptionsFragment();
-            fragment.setCoordinate(latitude, longitude);
+            fragment.setCoordinate(latitude, longitude, isFavorite);
             transaction.replace(R.id.search_detail, fragment);
 
             transaction.addToBackStack("Search Options");
@@ -167,41 +179,10 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode,
-                                 int resultCode, Intent data) {
-
-        if (requestCode == PLACE_PICKER_REQUEST
-                && resultCode == Activity.RESULT_OK) {
-
-            final Place place = PlacePicker.getPlace(this, data);
-            this.location_picker = place.getLatLng();
-            this.name_google = place.getName().toString();
-            this.address_google = place.getAddress().toString();
-            this.att_google = (String) place.getAttributions();
-            if (this.att_google == null) {
-                this.att_google = "";
-            }
-            if(address_google.length() > 0) {
-                locationView.setText(address_google);
-            }else{
-                locationView.setText(name_google);
-            }
-            if(location_picker!=null)
-            {
-                latitude=location_picker.latitude;
-                longitude=location_picker.longitude;
-            }
-
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    private void startResultFragment() {
+    private void startResultFragment(boolean isFavorite) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         ResultDetailFragment fragment = new ResultDetailFragment();
-        fragment.setData(searchContent, searchLocation, latitude, longitude);
+        fragment.setData(searchContent, searchLocation, latitude, longitude, isFavorite);
         transaction.replace(R.id.search_detail, fragment);
         transaction.addToBackStack("Result Options");
         transaction.commit();
