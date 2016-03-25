@@ -28,7 +28,7 @@ public class ResultDetailFragment extends Fragment {
     private double longitude;
     private OnLayoutSelectListener mCallBack;
     private Business selectedBusiness = null;
-    private boolean isFavorite = false;
+    private boolean isFavorite;
     private ArrayList<FavoriteBusiness> favoriteBusinesses;
 
     public interface OnLayoutSelectListener {
@@ -86,5 +86,6 @@ public class ResultDetailFragment extends Fragment {
         this.searchLocation = searchLocation;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.isFavorite = isFavorite;
     }
 }

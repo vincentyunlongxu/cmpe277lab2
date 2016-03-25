@@ -21,10 +21,10 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "FavoriteBusinessManager";
+    private static final String DATABASE_NAME = "FavBusinessManager";
 
     // Table Name
-    private static final String TABLE_NAME = "FavoritesLists";
+    private static final String TABLE_NAME = "FavLists";
 
     // favorite lists table column
     private static final String KEY_ID = "id";
