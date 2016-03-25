@@ -21,10 +21,10 @@ import retrofit.Call;
  */
 public class GetYelpData {
 
-    private final String consumerKey = "";
-    private final String consumerSecret = "";
-    private final String token = "";
-    private final String tokenSecret = "";
+    private final String consumerKey = "eNU5jsDcURwq5NQbM8TUvw";
+    private final String consumerSecret = "AQXA4sQNfBIxDYeSmzzHudUcpJk";
+    private final String token = "59To3xHAlzaShNe67onCTsaOvcCTlvRc";
+    private final String tokenSecret = "13uUbNU5qeM0aWpTVV1JJLXCjlo";
 
     private String searchContent;
     private String searchLocation;

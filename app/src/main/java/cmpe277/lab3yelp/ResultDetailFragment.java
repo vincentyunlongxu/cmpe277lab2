@@ -34,7 +34,10 @@ public class ResultDetailFragment extends Fragment {
         getYelpData.getData();
         ArrayList<Business> businessList = getYelpData.getBusinesses();
         ListView lv_result = (ListView)rootView.findViewById(R.id.lv_result);
+        //ivan
+        if(businessList!=null)
         lv_result.setAdapter(new SearchResultAdapter(getActivity(), businessList));
+
         return rootView;
     }
 

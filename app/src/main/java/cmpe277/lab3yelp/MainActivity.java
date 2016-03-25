@@ -1,5 +1,7 @@
 package cmpe277.lab3yelp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,12 +12,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.maps.android.SphericalUtil;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
     private String searchLocation;
     private double latitude;
     private double longitude;
+    private final int PLACE_PICKER_REQUEST=1;
+    //ivan
+    private String name_google;
+    private String address_google;
+    private String att_google;
+    private LatLng location_picker;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +76,37 @@ public class MainActivity extends AppCompatActivity {
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close
         );
 
+
+
+//ivan begin
+        locationView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getX() <= (locationView.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
+                        System.out.println("onclick on the left icon");
+                        try {
+                            PlacePicker.IntentBuilder intentBuilder =
+                                    new PlacePicker.IntentBuilder();
+                            Intent intent = intentBuilder.build(MainActivity.this);
+                            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+
+                        } catch (GooglePlayServicesRepairableException
+                                | GooglePlayServicesNotAvailableException e) {
+                            e.printStackTrace();
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+        //ivan end
         mDrawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -90,8 +140,40 @@ public class MainActivity extends AppCompatActivity {
             SearchOptionsFragment fragment = new SearchOptionsFragment();
             fragment.setCoordinate(latitude, longitude);
             transaction.replace(R.id.search_detail, fragment);
+
             transaction.addToBackStack("Search Options");
             transaction.commit();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode,
+                                 int resultCode, Intent data) {
+
+        if (requestCode == PLACE_PICKER_REQUEST
+                && resultCode == Activity.RESULT_OK) {
+
+            final Place place = PlacePicker.getPlace(this, data);
+            this.location_picker = place.getLatLng();
+            this.name_google = place.getName().toString();
+            this.address_google = place.getAddress().toString();
+            this.att_google = (String) place.getAttributions();
+            if (this.att_google == null) {
+                this.att_google = "";
+            }
+            if(address_google.length() > 0) {
+                locationView.setText(address_google);
+            }else{
+                locationView.setText(name_google);
+            }
+            if(location_picker!=null)
+            {
+                latitude=location_picker.latitude;
+                longitude=location_picker.longitude;
+            }
+
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
