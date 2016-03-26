@@ -12,7 +12,9 @@
     <string name="currentlocation">Current Location</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
-    <string name="google_api_key">AIzaSyBniCiAK0CxGfKqH64i79DdnB8QqcFOhbM</string>
+    <string name="google_api_key">AIzaSyBhMnzm9f-OXSUZmn8k6Lfxt_pTJ2Enq8s</string>
+    <string name="ic_star_black_24dp">0</string>
+    <string name="ic_star_border_black_24dp">1</string>
     <string-array name="menu_option">
         <item>Restaurants</item>
         <item>Bars</item>

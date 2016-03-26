@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.yelp.clientlib.entities.Business;
@@ -41,8 +42,15 @@ public class ResultDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search_result, container, false);
+        //ivan begin
+        ImageButton sort_Button = (ImageButton) getActivity().findViewById(R.id.button_sort);
+        String sortmode ="1";
+        if(sort_Button.getTag().equals(R.string.ic_star_black_24dp)) sortmode="0";
+        //ivan end
         if (!isFavorite) {
-            getYelpData = new GetYelpData(searchContent, searchLocation, latitude, longitude);
+            //ivan getYelpData = new GetYelpData(searchContent, searchLocation, latitude, longitude);
+            //ivan
+            getYelpData = new GetYelpData(searchContent, searchLocation, latitude, longitude,sortmode);
             getYelpData.getData();
             ArrayList<Business> businessList = getYelpData.getBusinesses();
             final ListView lv_result = (ListView)rootView.findViewById(R.id.lv_result);

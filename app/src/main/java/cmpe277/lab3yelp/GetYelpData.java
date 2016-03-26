@@ -21,24 +21,29 @@ import retrofit.Call;
  */
 public class GetYelpData {
 
-    private final String consumerKey = "GS4PX8uSw5AIQmKHXb6V3Q";
-    private final String consumerSecret = "3xrJYgc_fYkaDC1D7ds1ORc1aco";
-    private final String token = "_DD1X7_WTqH-a78tkK45BGSMEMXj9UnM";
-    private final String tokenSecret = "hjWV1Nr9lNNGTIkIvpKjT1kJ2Tc";
+    private final String consumerKey = "eNU5jsDcURwq5NQbM8TUvw";
+    private final String consumerSecret = "AQXA4sQNfBIxDYeSmzzHudUcpJk";
+    private final String token = "59To3xHAlzaShNe67onCTsaOvcCTlvRc";
+    private final String tokenSecret = "13uUbNU5qeM0aWpTVV1JJLXCjlo";
 
     private String searchContent;
     private String searchLocation;
     private double latitude;
     private double longitude;
     private Call<SearchResponse> call = null;
+    //ivan
+    String sortmode;
 
     private ArrayList<Business> businesses;
-
-    public GetYelpData(String searchContent, String searchLocation, double latitude, double longitude) {
+    //ivan    public GetYelpData(String searchContent, String searchLocation, double latitude, double longitude)
+    //ivan
+    public GetYelpData(String searchContent, String searchLocation, double latitude, double longitude, String sortmode) {
         this.searchContent = searchContent;
         this.searchLocation = searchLocation;
         this.latitude = latitude;
         this.longitude = longitude;
+        //ivan
+        this.sortmode=sortmode;
     }
 
     public void getData() {
@@ -63,14 +68,18 @@ public class GetYelpData {
                     .longitude(longitude).build();
             params.put("term", searchContent);
             params.put("limit", "20");
-            params.put("sort", "1");
+           // params.put("sort", "1");
+            //ivan
+            params.put("sort", sortmode);
 
             call = yelpAPI.search(coordinate, params);
 
         } else {
             params.put("term", searchContent);
             params.put("limit", "20");
-            params.put("sort", "1");
+            //params.put("sort", "1");
+            //ivan
+            params.put("sort", sortmode);
 
             call = yelpAPI.search(searchLocation, params);
         }
@@ -82,24 +91,27 @@ public class GetYelpData {
             int totalNumberOfResult = searchResponse.total();  // 3
             businesses = searchResponse.businesses();
             //business icon
-            String image = businesses.get(0).imageUrl();
-            //business name
-            String businessName = businesses.get(0).name();  // "JapaCurry Truck"
-            //business rating
-            Double rating = businesses.get(0).rating();  // 4.0
+            //ivan
+            if(totalNumberOfResult>0) {
+                String image = businesses.get(0).imageUrl();
+                //business name
+                String businessName = businesses.get(0).name();  // "JapaCurry Truck"
+                //business rating
+                Double rating = businesses.get(0).rating();  // 4.0
 
-            //business address
-            Location address = businesses.get(0).location();
-            ArrayList<String> addressList = address.displayAddress();
-            StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < addressList.size(); i++){
-                if(i == addressList.size()-1){
-                    sb.append("\n");
+                //business address
+                Location address = businesses.get(0).location();
+                ArrayList<String> addressList = address.displayAddress();
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < addressList.size(); i++) {
+                    if (i == addressList.size() - 1) {
+                        sb.append("\n");
+                        sb.append(addressList.get(i));
+                        break;
+                    }
                     sb.append(addressList.get(i));
-                    break;
+                    sb.append(" ");
                 }
-                sb.append(addressList.get(i));
-                sb.append(" ");
             }
         } catch (Exception e) {
             e.printStackTrace();

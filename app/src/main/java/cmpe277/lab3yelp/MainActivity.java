@@ -1,8 +1,10 @@
 package cmpe277.lab3yelp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -22,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -30,6 +34,8 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.maps.android.SphericalUtil;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements ResultDetailFragment.OnLayoutSelectListener {
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
     private String address_google;
     private String att_google;
     private LatLng location_picker;
+    private ImageButton sort_Button;
     private FrameLayout detail_layout;
     private boolean isFavorite = false;
 
@@ -90,8 +97,8 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
 
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if(event.getX() <= (locationView.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getX() <= (locationView.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
                         System.out.println("onclick on the left icon");
                         try {
                             PlacePicker.IntentBuilder intentBuilder =
@@ -109,6 +116,42 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
                 return false;
             }
         });
+
+
+
+        // sort option
+        sort_Button = (ImageButton) findViewById(R.id.button_sort);
+        sort_Button.setOnClickListener(new View.OnClickListener() {
+            //default by distance
+            @Override
+            public void onClick(View v) {
+                //current is by relevance, then it will change to by distance
+                if (sort_Button.getTag().equals(R.string.ic_star_black_24dp)) {
+                    sort_Button.setImageResource(R.drawable.ic_star_border_black_24dp);
+                    sort_Button.setTag(R.string.ic_star_border_black_24dp);
+                    Toast.makeText(getApplicationContext(), "Search by distance", Toast.LENGTH_SHORT).show();
+                }
+                //current is by distance, then it will change to by relevance
+                else {
+                    sort_Button.setImageResource(R.drawable.ic_star_black_24dp);
+                    sort_Button.setTag(R.string.ic_star_black_24dp);
+                    Toast.makeText(getApplicationContext(), "Search by relevance", Toast.LENGTH_SHORT).show();
+                }
+
+                ArrayList<Fragment> fragmentList = (ArrayList)getSupportFragmentManager().getFragments();
+                boolean sort_search = false;
+                for(int i=0; i<fragmentList.size(); i++)
+                    if(fragmentList.get(i).getClass().getName().equals("cmpe277.lab3yelp.ResultDetailFragment"))
+                        sort_search=true;
+                    else
+                        sort_search=false;
+                if(sort_search){
+                    startResultFragment(false);
+                }
+            }
+        });
+
+
         //ivan end
         mDrawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
@@ -134,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
             @Override
             public void onBackStackChanged() {
                 if (getSupportFragmentManager().getBackStackEntryCount() > 2) {
-                   drawerToggle.setDrawerIndicatorEnabled(false);
+                    drawerToggle.setDrawerIndicatorEnabled(false);
                     drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -167,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
             }
         });
 
-
         if (savedInstanceState == null) {
             setLocationData();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -179,6 +221,39 @@ public class MainActivity extends AppCompatActivity implements ResultDetailFragm
             transaction.commit();
         }
     }
+
+//ivan
+    @Override
+    public void onActivityResult(int requestCode,
+                                 int resultCode, Intent data) {
+
+        if (requestCode == PLACE_PICKER_REQUEST
+                && resultCode == Activity.RESULT_OK) {
+
+            final Place place = PlacePicker.getPlace(this, data);
+            this.location_picker = place.getLatLng();
+            this.name_google = place.getName().toString();
+            this.address_google = place.getAddress().toString();
+            this.att_google = (String) place.getAttributions();
+            if (this.att_google == null) {
+                this.att_google = "";
+            }
+            if(address_google.length() > 0) {
+                locationView.setText(address_google);
+            }else{
+                locationView.setText(name_google);
+            }
+            if(location_picker!=null)
+            {
+                latitude=location_picker.latitude;
+                longitude=location_picker.longitude;
+            }
+
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+    //ivan end
 
     private void startResultFragment(boolean isFavorite) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
