@@ -63,7 +63,15 @@ public class BusinessDetailFragment extends Fragment {
         rating.loadUrl(business.ratingImgUrl());
 
         distance = (TextView)rootView.findViewById(R.id.distance);
-        String calDistance = business.distance().toString();
+
+        //ivan String calDistance = business.distance().toString();
+        //ivan
+        String calDistance=null;
+        if(business.distance()!=null)
+            calDistance = business.distance().toString();
+        else
+            calDistance = "?";
+
         distance.setText(calDistance + " Meters");
 
         String address = "";
